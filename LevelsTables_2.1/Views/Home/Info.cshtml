@@ -79,7 +79,7 @@
                         <td>
                             @foreach (long uploadTime in Model.AllUploadTimes)
                             {
-                                <a asp-action="Info" asp-route-id="@Model.Tank.Id" asp-route-date="@uploadTime.ToString()">@(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(uploadTime))</a>
+                                <a asp-action="Info" asp-route-id="@Model.Tank.Id" asp-route-date="@uploadTime">@(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(uploadTime))</a>
                                 <br />
                             }
                         </td>
@@ -100,8 +100,8 @@
             <td>
                 @if (Model.Calibrations != null && Model.Calibrations.Count > 0)
                 {
-                    <h7>current table upload or update date: @Model.CurrentTableTime</h7>
-                    <button type="submit" id="deletebutton">delete </button>
+                    <h7>current table upload or update date: @(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Model.CurrentTableTime))</h7>
+                    <button type="submit" id="deleteButton">delete </button>
                     <button type="submit" id="update-button">оновити</button>
                 }
                 <div id="example-table"></div>
@@ -130,32 +130,32 @@
         });
 
     </script> 
-@* 
+
     <script>
         $("#update-button").click(function () {
-            showloadingspinner();
+            showLoadingSpinner();
 
-            var tabledata = table.getdata();
-            var jsondata = json.stringify(tabledata);
-            var file = new blob([jsondata], { type: 'application/json' });
-            var formdata = new formdata();
-            formdata.append('file', file, 'calibration.json');
+            var tableData = table.getData();
+            var jsonData = JSON.stringify(tableData);
+            var file = new Blob([jsonData], { type: 'application/json' });
+            var formData = new FormData();
+            formData.append('file', file, 'calibration.json');
             $.ajax({
-                type: 'post',
-                url: '@Url.Action("update", "home")',
-                data: formdata,
-                processdata: false,
-                contenttype: false,
+                type: 'POST',
+                url: '@Url.Action("Update", "Home")',
+                data: formData,
+                processData: false,
+                contentType: false,
                 success: function (data) {
-                    hideloadingspinner();
-                    swal.fire({
-                        title: "дані успішно оновлено",
-                        confirmbuttoncolor: "#3085d6"
+                    hideLoadingSpinner();
+                    Swal.fire({
+                        title: "Дані успішно оновлено",
+                        confirmButtonColor: "#3085d6"
                     }).then((result) => {
-                        if (result.isconfirmed) {
+                        if (result.isConfirmed) {
                             $.ajax({
                                 success: function (data) {
-                                    _url = `/home/info/` + @Model.Tank.Id;
+                                    _url = `/Home/Info/` + @Model.Tank.Id;
                                     window.location.replace(_url);
                                 }
                             });
@@ -163,16 +163,16 @@
                     });
                 },
                 error: function (xhr, status, error) {
-                    hideloadingspinner();
-                    swal.fire({
-                        title: "помилка оновлення даних",
+                    hideLoadingSpinner();
+                    Swal.fire({
+                        title: "Помилка оновлення даних",
                         icon: "error",
-                        confirmbuttoncolor: "#dc3545"
+                        confirmButtonColor: "#dc3545"
                     }).then((result) => {
-                        if (result.isconfirmed) {
+                        if (result.isConfirmed) {
                             $.ajax({
                                 success: function (data) {
-                                    _url = `/home/info/` + @Model.Tank.Id;
+                                    _url = `/Home/Info/` + @Model.Tank.Id;
                                     window.location.replace(_url);
                                 }
                             });
@@ -182,50 +182,50 @@
             });
         });
 
-        function showloadingspinner() {
+        function showLoadingSpinner() {
             $('#spinner').show();
             $('body').css('cursor', 'wait');
         }
 
-        function hideloadingspinner() {
+        function hideLoadingSpinner() {
             $('#spinner').hide();
             $('body').css('cursor', 'default');
         }
     </script>
     <script>
         $(document).ready(function () {
-            $('#deletebutton').on('click', function () {
-                
-                swal.fire({
-                    title: "ви впевнені що хочете видалити таблицю?",
-                    text: "ви не зможете цю дію скасувати!",
+            $('#deleteButton').on('click', function () {
+
+                Swal.fire({
+                    title: "Ви впевнені що хочете видалити таблицю?",
+                    text: "Ви не зможете цю дію скасувати!",
                     icon: "warning",
-                    showcancelbutton: true,
-                    confirmbuttoncolor: "#d33",
-                    cancelbuttoncolor: "#3085d6",
-                    confirmbuttontext: "так, видалити",
-                    cancelbuttontext: "назад"
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Так, видалити",
+                    cancelButtonText: "Назад"
                 }).then((result) => {
-                    if (result.isconfirmed) {
-                        showloadingspinner();
+                    if (result.isConfirmed) {
+                        showLoadingSpinner();
                         $.ajax({
-                            url: '@Url.Action("delete", "home")',
-                            type: 'post',
+                            url: '@Url.Action("Delete", "Home")',
+                            type: 'POST',
                             data: { id: @Model.Tank.Id, date: `@Model.CurrentTableTime` },
                             success: function (data) {
-                                hideloadingspinner();
-                                _url = `/home/info/` + data;
+                                hideLoadingSpinner();
+                                _url = `/Home/Info/` + data;
                                 window.location.replace(_url);
 
                             },
                             error: function (xhr, status, error) {
-                                hideloadingspinner();
-                                swal.fire({
-                                    title: "помилка видалення даних",
+                                hideLoadingSpinner();
+                                Swal.fire({
+                                    title: "Помилка видалення даних",
                                     icon: "error",
-                                    confirmbuttoncolor: "#dc3545"
+                                    confirmButtonColor: "#dc3545"
                                 }).then((result) => {
-                                    if (result.isconfirmed) {
+                                    if (result.isConfirmed) {
                                         $.ajax({
                                             success: function (data) {
                                                 location.reload();
@@ -238,16 +238,16 @@
                     }
                 });
             });
-        }); 
+        });
 
-        function showloadingspinner() {
+        function showLoadingSpinner() {
             $('#spinner').show();
             $('body').css('cursor', 'wait');
         }
 
-        function hideloadingspinner() {
+        function hideLoadingSpinner() {
             $('#spinner').hide();
             $('body').css('cursor', 'default');
         }
-    </script> *@
+    </script>
 }
