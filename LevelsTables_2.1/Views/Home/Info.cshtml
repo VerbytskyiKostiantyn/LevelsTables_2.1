@@ -1,0 +1,253 @@
+﻿@using LevelsTables.Models.View_Models
+
+@model InfoVM
+<div>
+    <h2>танк @Model.Tank.Name</h2>
+    <table>
+        <tr>
+            <td style="vertical-align: top;">
+                <table>
+                    <tr>
+                        <th>поле</th>
+                        <th>значення</th>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.Id"></label></td>
+                        <td><span>@Model.Tank.Id</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.Name"></label></td>
+                        <td><span>@Model.Tank.Name</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.Address"></label></td>
+                        <td><span>@Model.Tank.Address</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.Description"></label></td>
+                        <td><span>@Model.Tank.Description</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.Active"></label></td>
+                        <td><span>@Model.Tank.Active</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.MaxVolume"></label></td>
+                        <td><span>@Model.Tank.MaxVolume</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.Product_zero"></label></td>
+                        <td><span>@Model.Tank.Product_zero</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.Water_zero"></label></td>
+                        <td><span>@Model.Tank.Water_zero</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.Alert_Level"></label></td>
+                        <td><span>@Model.Tank.Alert_Level</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.FuelID"></label></td>
+                        <td><span>@Model.Tank.FuelID</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.StationID"></label></td>
+                        <td><span>@Model.Tank.StationID</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.TankNumber"></label></td>
+                        <td><span>@Model.Tank.TankNumber</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.TankUID"></label></td>
+                        <td><span>@Model.Tank.TankUID</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.ProbeSerial"></label></td>
+                        <td><span>@Model.Tank.ProbeSerial</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.Probetype"></label></td>
+                        <td><span>@Model.Tank.Probetype</span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Tank.ExternalProbeId"></label></td>
+                        <td><span>@Model.Tank.ExternalProbeId</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @foreach (long uploadTime in Model.AllUploadTimes)
+                            {
+                                <a asp-action="Info" asp-route-id="@Model.Tank.Id" asp-route-date="@uploadTime.ToString()">@(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(uploadTime))</a>
+                                <br />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form enctype="multipart/form-data" method="post">
+                                <input asp-for="@Model.Tank.Id" hidden></input>
+                                <input type="file" name="file" accept=".csv" />
+                                <button type="submit">upload csv</button><br />
+
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+            <td>
+                @if (Model.Calibrations != null && Model.Calibrations.Count > 0)
+                {
+                    <h7>current table upload or update date: @Model.CurrentTableTime</h7>
+                    <button type="submit" id="deletebutton">delete </button>
+                    <button type="submit" id="update-button">оновити</button>
+                }
+                <div id="example-table"></div>
+            </td>
+        </tr>
+    </table>
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/tabulator-tables@6.3.0/dist/js/tabulator.min.js"></script>
+
+
+@if (Model.Calibrations != null && Model.Calibrations.Count > 0)
+{ 
+ <script >
+        var table = new Tabulator("#example-table", {
+            data: @Html.Raw(Json.Serialize(Model.Calibrations)),
+            pagination: true,
+            paginationSize: 50,
+            columns: [
+                { title: "Level", field: "level", editor: "input", editorParams: { mask: "9999999999999999" } },
+                { title: "Volume", field: "volume", editor: "input", editorParams: { mask: "9999999999999999" } },
+                { title: "Ratio", field: "ratio" }
+            ],
+        });
+
+    </script> 
+@* 
+    <script>
+        $("#update-button").click(function () {
+            showloadingspinner();
+
+            var tabledata = table.getdata();
+            var jsondata = json.stringify(tabledata);
+            var file = new blob([jsondata], { type: 'application/json' });
+            var formdata = new formdata();
+            formdata.append('file', file, 'calibration.json');
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("update", "home")',
+                data: formdata,
+                processdata: false,
+                contenttype: false,
+                success: function (data) {
+                    hideloadingspinner();
+                    swal.fire({
+                        title: "дані успішно оновлено",
+                        confirmbuttoncolor: "#3085d6"
+                    }).then((result) => {
+                        if (result.isconfirmed) {
+                            $.ajax({
+                                success: function (data) {
+                                    _url = `/home/info/` + @Model.Tank.Id;
+                                    window.location.replace(_url);
+                                }
+                            });
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    hideloadingspinner();
+                    swal.fire({
+                        title: "помилка оновлення даних",
+                        icon: "error",
+                        confirmbuttoncolor: "#dc3545"
+                    }).then((result) => {
+                        if (result.isconfirmed) {
+                            $.ajax({
+                                success: function (data) {
+                                    _url = `/home/info/` + @Model.Tank.Id;
+                                    window.location.replace(_url);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        function showloadingspinner() {
+            $('#spinner').show();
+            $('body').css('cursor', 'wait');
+        }
+
+        function hideloadingspinner() {
+            $('#spinner').hide();
+            $('body').css('cursor', 'default');
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#deletebutton').on('click', function () {
+                
+                swal.fire({
+                    title: "ви впевнені що хочете видалити таблицю?",
+                    text: "ви не зможете цю дію скасувати!",
+                    icon: "warning",
+                    showcancelbutton: true,
+                    confirmbuttoncolor: "#d33",
+                    cancelbuttoncolor: "#3085d6",
+                    confirmbuttontext: "так, видалити",
+                    cancelbuttontext: "назад"
+                }).then((result) => {
+                    if (result.isconfirmed) {
+                        showloadingspinner();
+                        $.ajax({
+                            url: '@Url.Action("delete", "home")',
+                            type: 'post',
+                            data: { id: @Model.Tank.Id, date: `@Model.CurrentTableTime` },
+                            success: function (data) {
+                                hideloadingspinner();
+                                _url = `/home/info/` + data;
+                                window.location.replace(_url);
+
+                            },
+                            error: function (xhr, status, error) {
+                                hideloadingspinner();
+                                swal.fire({
+                                    title: "помилка видалення даних",
+                                    icon: "error",
+                                    confirmbuttoncolor: "#dc3545"
+                                }).then((result) => {
+                                    if (result.isconfirmed) {
+                                        $.ajax({
+                                            success: function (data) {
+                                                location.reload();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        }); 
+
+        function showloadingspinner() {
+            $('#spinner').show();
+            $('body').css('cursor', 'wait');
+        }
+
+        function hideloadingspinner() {
+            $('#spinner').hide();
+            $('body').css('cursor', 'default');
+        }
+    </script> *@
+}
