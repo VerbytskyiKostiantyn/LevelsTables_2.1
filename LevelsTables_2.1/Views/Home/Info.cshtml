@@ -2,14 +2,14 @@
 
 @model InfoVM
 <div>
-    <h2>танк @Model.Tank.Name</h2>
+    <h2>Резервуар №@Model.Tank.Id</h2>
     <table>
         <tr>
             <td style="vertical-align: top;">
                 <table>
                     <tr>
-                        <th>поле</th>
-                        <th>значення</th>
+                        <th>Поле</th>
+                        <th>Значення</th>
                     </tr>
                     <tr>
                         <td><label asp-for="@Model.Tank.Id"></label></td>
@@ -89,8 +89,7 @@
                             <form enctype="multipart/form-data" method="post">
                                 <input asp-for="@Model.Tank.Id" hidden></input>
                                 <input type="file" name="file" accept=".csv" />
-                                <button type="submit">upload csv</button><br />
-
+                                <button type="submit">Завантажити</button><br />
                             </form>
                         </td>
                     </tr>
@@ -100,9 +99,9 @@
             <td>
                 @if (Model.Calibrations != null && Model.Calibrations.Count > 0)
                 {
-                    <h7>current table upload or update date: @(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Model.CurrentTableTime))</h7>
-                    <button type="submit" id="deleteButton">delete </button>
-                    <button type="submit" id="update-button">оновити</button>
+                    <h7>Час завантаження або зміни таблиці: @(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Model.CurrentTableTime))</h7><br />
+                    <button type="submit" id="deleteButton">Видалити</button><br />
+                    <button type="submit" id="update-button">Оновити</button><br />
                 }
                 <div id="example-table"></div>
             </td>

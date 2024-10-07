@@ -35,7 +35,6 @@ namespace LevelsTables.Controllers
 
         public async Task<IActionResult> Info(int id, long? date)
         {
-
             var allUploadDates = _db.Calibrations
                 .Where(t => t.TankId == id)
                 .Select(t => t.timeOfUploadOrUpdate)
@@ -187,7 +186,6 @@ namespace LevelsTables.Controllers
                 }
 
                 _db.SaveChanges();
-
                 return RedirectToAction("Info", new { id = id });
             }
             catch
@@ -209,7 +207,7 @@ namespace LevelsTables.Controllers
 
             GetTableModel getTableModel = new GetTableModel()
             {
-                countOfRows = 0,
+                CountOfRows = 0,
                 CalibrationList = new List<CalibrationGetModel>()
             };
             string jsonTableModel = JsonConvert.SerializeObject(getTableModel);
@@ -237,7 +235,7 @@ namespace LevelsTables.Controllers
                 }
             }
 
-            getTableModel.countOfRows = getTableModel.CalibrationList.Count();
+            getTableModel.CountOfRows = getTableModel.CalibrationList.Count();
 
             jsonTableModel = JsonConvert.SerializeObject(getTableModel);
 
