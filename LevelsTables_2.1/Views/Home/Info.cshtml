@@ -122,10 +122,10 @@
             pagination: true,
             paginationSize: 50,
             columns: [
-                { title: "Level", field: "level", editor: "input", editorParams: { mask: "9999999999999999" } },
-                { title: "Volume", field: "volume", editor: "input", editorParams: { mask: "9999999999999999" } },
+                { title: "Level", field: "level", editor: "input" },
+                { title: "Volume", field: "volume", editor: "input" },
                 { title: "Ratio", field: "ratio" }
-            ],
+            ]
         });
 
     </script> 
@@ -147,19 +147,8 @@
                 contentType: false,
                 success: function (data) {
                     hideLoadingSpinner();
-                    Swal.fire({
-                        title: "Дані успішно оновлено",
-                        confirmButtonColor: "#3085d6"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                success: function (data) {
-                                    _url = `/Home/Info/` + @Model.Tank.Id;
-                                    window.location.replace(_url);
-                                }
-                            });
-                        }
-                    });
+                    _url = `/Home/Info/` + @Model.Tank.Id;
+                    window.location.replace(_url);
                 },
                 error: function (xhr, status, error) {
                     hideLoadingSpinner();

@@ -84,7 +84,7 @@ namespace LevelsTables.Controllers
             {
                 using (var reader = new StreamReader(file.OpenReadStream()))
                 {
-                    var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+                    var csvConfig = new CsvConfiguration(CultureInfo.CreateSpecificCulture("uk-UA"))
                     {
                         Delimiter = ";",
                         HasHeaderRecord = true,
@@ -154,12 +154,21 @@ namespace LevelsTables.Controllers
             //return RedirectToAction("Info", new {id = id});
         }
 
-
+        
         [HttpPost]
         public IActionResult Update(IFormFile file)
         {
-            string jsonData = new StreamReader(file.OpenReadStream()).ReadToEnd();
-            List<Calibration> calibrationList = JsonConvert.DeserializeObject<List<Calibration>>(jsonData);
+            List<Calibration> calibrationList = new List<Calibration>();
+            try
+            {
+                    string jsonData = new StreamReader(file.OpenReadStream()).ReadToEnd();
+                    calibrationList = JsonConvert.DeserializeObject<List<Calibration>>(jsonData);
+            }
+            catch
+            {
+                TempData["Error"] = "Введені дані не коректні";
+                return Ok();
+            }
 
             int id = calibrationList[0].TankId;
             decimal previousVolume = -1;
@@ -186,12 +195,13 @@ namespace LevelsTables.Controllers
                 }
 
                 _db.SaveChanges();
-                return RedirectToAction("Info", new { id = id });
+                TempData["Success"] = "Дані успішно оновлені";
+                return Ok();
             }
             catch
             {
-                TempData["Error"] = "Введені дані не вірні";
-                return RedirectToAction("Info", new { id = id });
+                TempData["Error"] = "Помилка при оновлені даних";
+                return Ok();
             }
         }
 
