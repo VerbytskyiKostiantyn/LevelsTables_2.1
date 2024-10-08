@@ -89,7 +89,7 @@
                             <form enctype="multipart/form-data" method="post">
                                 <input asp-for="@Model.Tank.Id" hidden></input>
                                 <input type="file" name="file" accept=".csv" />
-                                <button type="submit">Завантажити</button><br />
+                                <button id="downloadBut" type="submit">Завантажити</button><br />
                             </form>
                         </td>
                     </tr>
@@ -113,6 +113,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://unpkg.com/tabulator-tables@6.3.0/dist/js/tabulator.min.js"></script>
 
+<script>
+    document.getElementById("downloadBut").addEventListener("click", function () {
+        showLoadingSpinner();
+    });
+    function showLoadingSpinner() {
+        $('#spinner').show();
+        $('body').css('cursor', 'wait');
+    }
+</script>
 
 @if (Model.Calibrations != null && Model.Calibrations.Count > 0)
 { 
