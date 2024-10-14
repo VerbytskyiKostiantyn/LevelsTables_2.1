@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
+using LevelsTables.Models.Tables;
 
 namespace LevelsTables.Controllers
 {
@@ -30,6 +31,11 @@ namespace LevelsTables.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        public IActionResult Table()
+        {
+            var data = _db.Stations.Include(q => q.Kassas).Include(q => q.TankForStations).OrderBy(q => q.Id).ToList();
+            return View(data);
         }
 
 

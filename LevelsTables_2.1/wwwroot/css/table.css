@@ -1,0 +1,33 @@
+﻿.tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+    .tg td {
+        border-color: #ddd;
+        border-style: solid;
+        border-width: 1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        overflow: hidden;
+        padding: 7px;
+        word-break: normal;
+        text-align: center;
+        vertical-align: middle;
+        background-color: #fff;
+    }
+
+    .tg td:hover {
+        background-color: #ccc;
+        cursor: pointer;
+    }
+
+    .tg th:hover {
+        background-color: #3e8e41;
+    }
+
+.hdr {
+    background-color: #f7f7f7 !important;
+}
