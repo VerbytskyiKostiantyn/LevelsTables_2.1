@@ -3,62 +3,245 @@
 
 @model List<Station>
 
-<div class="row">
-    @for (int i = 0; i < 10; i++)
-    {
+<div class="hidden-xs text-center" style="margin: 5px 0px 15px 0px;">
+    <button class="btn" style="margin: 5px 10px; background-color: #7ad8fa;" id="1But" value="1">Київська</button>
+    <button class="btn" style="margin: 5px 10px; background-color: #7ad8fa;" id="2But" value="2">Чернігівська</button>
+    <button class="btn" style="margin: 5px 10px; background-color: #7ad8fa;" id="3But" value="3">Житомирська</button>
+    <button class="btn" style="margin: 5px 10px; background-color: #7ad8fa;" id="4But" value="4">Вінницька</button>
+    <button class="btn" style="margin: 5px 10px; background-color: #7ad8fa;" id="5But" value="5">Запорізька</button>
+    <button class="btn" style="margin: 5px 10px; background-color: #7ad8fa;" id="6But" value="6">Черкаська</button>
+    <button class="btn" style="margin: 5px 10px; background-color: #7ad8fa;" id="7But" value="7">Чернівецька</button>
+    <button class="btn" style="margin: 5px 10px; background-color: #7ad8fa;" id="8But" value="8">Рівнинська</button>
+    <button class="btn" style="margin: 5px 10px; background-color: #7ad8fa;" id="9But" value="9">Хмельницька</button>
+</div>
 
-        <div class="col-md-6 col-lg-3" style="margin: 15px 0px;">
-            <table class="tg" style="">
-            <tbody style="vertical-align: middle; text-align:center;">
-                <tr>
-                    <td class="" style="width: min-content" colspan="4">Селище dssdfsdf dsfsdfsdfs fdsfdsfsdf sdfsdfsdfsd dsfsdfsdf</td>
-                </tr>
-                <tr style="font-weight: bold;">
-                    <td class="hdr" style="font-weight: bold;">Дизель</td>
-                    <td class="hdr">каса</td>
-                    <td class="hdr">по-факту</td>
-                    <td class="hdr">Дата приходу</td>
-                </tr>
-                <tr>
-                    <td class="">бочка 1</td>
-                    <td class="" rowspan="2">10000</td>
-                    <td class="">6000</td>
-                    <td class="" rowspan="2">10.12.24</td>
-                </tr>
-                <tr>
-                    <td class="">бочка 2</td>
-                    <td class="">4000</td>
-                </tr>
-                <tr style="font-weight: bold;">
-                    <td class="hdr" style="font-weight: bold;">Бензин</td>
-                    <td class="hdr">каса</td>
-                    <td class="hdr">по-факту</td>
-                    <td class="hdr">Дата приходу</td>
-                </tr>
-                <tr>
-                    <td class="">бочка 1</td>
-                    <td class="">4000</td>
-                    <td class="">4000</td>
-                    <td class="">23.9.24</td>
-                </tr>
-                <tr style="font-weight: bold;">
-                    <td class="hdr" style="font-weight: bold;">Газ</td>
-                    <td class="hdr">каса</td>
-                    <td class="hdr">по-факту</td>
-                    <td class="hdr">Дата приходу</td>
-                </tr>
-                <tr>
-                    <td class="">бочка 1</td>
-                    <td class="" rowspan="2">15000</td>
-                    <td class="">7000</td>
-                    <td class="" rowspan="2">11.5.24</td>
-                </tr>
-                <tr>
-                    <td class="">бочка 2</td>
-                    <td class="">8000</td>
-                </tr>
-            </tbody>
-        </table>
+<!-- Випадаюче меню для маленьких екранів -->
+<div class="dropdown visible-xs" style="margin: 5px 0px;">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" style="background-color: #7ad8fa; border-color: #7ad8fa;">
+        Фільтри <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu" style="padding: 10px;">
+        <li><button class="btn btn-block" style="margin: 5px 0px; background-color: #7ad8fa;" id="Sm1But" value="1">Київська</button></li>
+        <li><button class="btn btn-block" style="margin: 5px 0px; background-color: #7ad8fa;" id="Sm2But" value="2">Чернігівська</button></li>
+        <li><button class="btn btn-block" style="margin: 5px 0px; background-color: #7ad8fa;" id="Sm3But" value="3">Житомирська</button></li>
+        <li><button class="btn btn-block" style="margin: 5px 0px; background-color: #7ad8fa;" id="Sm4But" value="4">Вінницька</button></li>
+        <li><button class="btn btn-block" style="margin: 5px 0px; background-color: #7ad8fa;" id="Sm5But" value="5">Запорізька</button></li>
+        <li><button class="btn btn-block" style="margin: 5px 0px; background-color: #7ad8fa;" id="Sm6But" value="6">Черкаська</button></li>
+        <li><button class="btn btn-block" style="margin: 5px 0px; background-color: #7ad8fa;" id="Sm7But" value="7">Чернівецька</button></li>
+        <li><button class="btn btn-block" style="margin: 5px 0px; background-color: #7ad8fa;" id="Sm8But" value="8">Рівнинська</button></li>
+        <li><button class="btn btn-block" style="margin: 5px 0px; background-color: #7ad8fa;" id="Sm9But" value="9">Хмельницька</button></li>
+    </ul>
+</div>
+
+<div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-xs-12 col-md-4">
+            <input type="text" class="form-control" placeholder="Пошук" id="search" />
+        </div>
+        <div class="col-md-4"></div>
     </div>
+</div>
+<div class="table-container">
+    @for (int j = 0; j < 7; j++)
+    {
+        @foreach (Station station in Model)
+        {
+            <div class="table-wrapper" style="margin: 15px 0px;">
+                    <table class="tg" style="">
+                        <tbody style="vertical-align: middle; text-align:center;">
+                            <tr>
+                                <td class="" style="width: min-content" colspan="4">@station.Name</td>
+                            </tr>
+                            @if (station.TankForStations.Any(t => t.ContainWhat == "Diesel"))
+                            {
+                                <tr style="font-weight: bold;">
+                                    <td class="hdr" style="font-weight: bold;">Дизель</td>
+                                    <td class="hdr">каса</td>
+                                    <td class="hdr">по-факту</td>
+                                    <td class="hdr">Дата приходу</td>
+                                </tr>
+
+                                int i = 0;
+
+                                int countOfTanks = station.TankForStations.Where(t => t.ContainWhat == "Diesel").Count();
+
+                                Kassa kassa = station.Kassas.Where(t => t.ContainWhat == "Diesel").FirstOrDefault();
+                                @foreach (TankForStation tankForStation in station.TankForStations.Where(t => t.ContainWhat == "Diesel"))
+                                {
+                                    if (i == 0)
+                                    {
+                                        <tr>
+                                            <td class="">@tankForStation.Id</td>
+                                            <td class="" rowspan="@countOfTanks">@kassa.Data</td>
+                                            <td class="">@tankForStation.Data</td>
+                                            <td class="" rowspan="@countOfTanks">@kassa.DateOfLastIn</td>
+                                        </tr>
+                                    }else
+                                    {
+                                        <tr>
+                                            <td class="">@tankForStation.Id</td>
+                                            <td class="">@tankForStation.Data</td>
+                                        </tr>
+                                    }
+                                    i++;
+                                }
+                            }
+                            @if (station.TankForStations.Any(t => t.ContainWhat == "Petrol"))
+                            {
+                                <tr style="font-weight: bold;">
+                                    <td class="hdr" style="font-weight: bold;">Бензин</td>
+                                    <td class="hdr">каса</td>
+                                    <td class="hdr">по-факту</td>
+                                    <td class="hdr">Дата приходу</td>
+                                </tr>
+                                int i = 0;
+
+                                int countOfTanks = station.TankForStations.Where(t => t.ContainWhat == "Petrol").Count();
+
+                                Kassa kassa = station.Kassas.Where(t => t.ContainWhat == "Petrol").FirstOrDefault();
+                                @foreach (TankForStation tankForStation in station.TankForStations.Where(t => t.ContainWhat == "Petrol"))
+                                {
+                                    if (i == 0)
+                                    {
+                                        <tr>
+                                            <td class="">@tankForStation.Id</td>
+                                            <td class="" rowspan="@countOfTanks">@kassa.Data</td>
+                                            <td class="">@tankForStation.Data</td>
+                                            <td class="" rowspan="@countOfTanks">@kassa.DateOfLastIn</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td class="">@tankForStation.Id</td>
+                                            <td class="">@tankForStation.Data</td>
+                                        </tr>
+                                    }
+                                    i++;
+                                }
+                            }
+                            @if (station.TankForStations.Any(t => t.ContainWhat == "Gas"))
+                            {
+                                <tr style="font-weight: bold;">
+                                    <td class="hdr" style="font-weight: bold;">Газ</td>
+                                    <td class="hdr">каса</td>
+                                    <td class="hdr">по-факту</td>
+                                    <td class="hdr">Дата приходу</td>
+                                </tr>
+
+                                int i = 0;
+
+                                int countOfTanks = station.TankForStations.Where(t => t.ContainWhat == "Gas").Count();
+
+                                Kassa kassa = station.Kassas.Where(t => t.ContainWhat == "Gas").FirstOrDefault();
+                                @foreach (TankForStation tankForStation in station.TankForStations.Where(t => t.ContainWhat == "Gas"))
+
+                                {
+
+                                    if (i == 0)
+
+                                    {
+                                        <tr>
+                                            <td class="">@tankForStation.Id</td>
+                                            <td class="" rowspan="@countOfTanks">@kassa.Data</td>
+                                            <td class="">@tankForStation.Data</td>
+                                            <td class="" rowspan="@countOfTanks">@kassa.DateOfLastIn</td>
+                                        </tr>
+                                    }else
+                                    {
+                                        <tr>
+                                            <td class="">@tankForStation.Id</td>
+                                            <td class="">@tankForStation.Data</td>
+                                        </tr>
+                                    }
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+        }
     }
 </div>
+<script>
+    const searchInput = document.getElementById('search');
+    const buttons = document.querySelectorAll('.hidden-xs .btn');
+    const tableWrappers = document.querySelectorAll('.table-container > .table-wrapper');
+    let isFiltered = false;
+    let buttonFilterValue = '';
+    let previouslySelectedButton = null;
+
+    // Sort the table wrappers alphabetically by station name
+    const sortedTableWrappers = Array.prototype.slice.call(tableWrappers).sort((a, b) => {
+        const stationNameA = a.querySelector('table.tg > tbody > tr > td[colspan="4"]').textContent.trim().toLowerCase();
+        const stationNameB = b.querySelector('table.tg > tbody > tr > td[colspan="4"]').textContent.trim().toLowerCase();
+        return stationNameA.localeCompare(stationNameB);
+    });
+
+    // Append the sorted table wrappers to the table container
+    const tableContainer = tableWrappers[0].parentNode;
+    tableContainer.innerHTML = '';
+    sortedTableWrappers.forEach((tableWrapper) => {
+        tableContainer.appendChild(tableWrapper);
+    });
+
+    // Add event listener for search input
+    searchInput.addEventListener('input', () => {
+        const searchText = searchInput.value.trim().toLowerCase();
+        filterTableWrappers(searchText, buttonFilterValue);
+    });
+
+    // Add event listener for buttons
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const condition = button.value; // Get the button value
+            buttonFilterValue = condition; // Store the button filter value
+
+            // Deselect the previously selected button
+            if ((previouslySelectedButton == button) && (previouslySelectedButton && isFiltered)) {
+                isFiltered = false;// Reset the button color
+                button.style.backgroundColor = '#7ad8fa';
+                buttonFilterValue = '';
+            }else if (previouslySelectedButton && isFiltered) {
+                previouslySelectedButton.style.backgroundColor = '#7ad8fa';
+                button.style.backgroundColor = '#fa7a7a'; // Reset the button color
+            }
+            else {
+                // Select the button
+                isFiltered = true;
+                button.style.backgroundColor = '#fa7a7a'; // Update the button color
+            }
+
+            // Store the current button as the previously selected button
+            previouslySelectedButton = button;
+
+            // Filter the table wrappers
+            filterTableWrappers(searchInput.value.trim().toLowerCase(), buttonFilterValue);
+        });
+    });
+
+    // Function to filter the table wrappers
+    function filterTableWrappers(searchText, buttonFilterValue) {
+        tableWrappers.forEach((tableWrapper) => {
+            tableWrapper.style.display = 'none';
+        });
+
+        const filteredTableWrappers = Array.prototype.slice.call(tableWrappers).filter((tableWrapper) => {
+            const tableName = tableWrapper.querySelector('table.tg > tbody > tr > td[colspan="4"]').textContent.trim().toLowerCase();
+            if (buttonFilterValue && searchText) {
+                return tableName.includes(buttonFilterValue) && tableName.includes(searchText);
+            } else if (buttonFilterValue) {
+                return tableName.includes(buttonFilterValue);
+            } else if (searchText) {
+                return tableName.includes(searchText);
+            } else {
+                return true;
+            }
+        });
+
+        filteredTableWrappers.forEach((tableWrapper) => {
+            tableWrapper.style.display = 'block';
+        });
+    }
+</script>

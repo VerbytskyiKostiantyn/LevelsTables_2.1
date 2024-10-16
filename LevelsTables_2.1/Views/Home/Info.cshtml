@@ -3,6 +3,17 @@
 @model InfoVM
 <div>
     <h2>Резервуар №@Model.Tank.Id</h2>
+    <div class="row">
+        <div class="form-group col-lg-2">
+            <label>Міліметри</label><br />
+            <input type="text" class="form-control" style="max-width:100px" id="input1" placeholder="Level" value="" />
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="form-group col-lg-2">
+            <label>Літри</label><br />
+            <input type="text" class="form-control" style="max-width:100px" id="input2" placeholder="Volume" value="" />
+        </div>
+    </div>
     <table>
         <tr>
             <td style="vertical-align: top;">
@@ -99,9 +110,15 @@
             <td>
                 @if (Model.Calibrations != null && Model.Calibrations.Count > 0)
                 {
-                    <h7>Час завантаження або зміни таблиці: @(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Model.CurrentTableTime))</h7><br />
-                    <button type="submit" id="deleteButton">Видалити</button><br />
-                    <button type="submit" id="update-button">Оновити</button><br />
+                    <h7>Час завантаження або зміни таблиці: @(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Model.CurrentTableTime))</h7>
+
+                    <br />
+                    <button type="submit" id="deleteButton">Видалити</button>
+
+                    <br />
+                    <button type="submit" id="update-button">Оновити</button>
+
+                    <br />
                 }
                 <div id="example-table"></div>
             </td>
@@ -124,8 +141,8 @@
 </script>
 
 @if (Model.Calibrations != null && Model.Calibrations.Count > 0)
-{ 
- <script >
+{
+    <script>
         var table = new Tabulator("#example-table", {
             data: @Html.Raw(Json.Serialize(Model.Calibrations)),
             pagination: true,
@@ -137,7 +154,7 @@
             ]
         });
 
-    </script> 
+    </script>
 
     <script>
         $("#update-button").click(function () {
@@ -248,3 +265,86 @@
         }
     </script>
 }
+<script>
+    var calibrationData = @Html.Raw(Json.Serialize(Model.Calibrations));
+
+    calibrationData.sort(function (a, b) {
+        return a.level - b.level;
+    });
+
+    var input1 = document.getElementById('input1');
+    var input2 = document.getElementById('input2');
+
+    var maxLevel = calibrationData[calibrationData.length - 1].level;
+    var maxVolume = calibrationData[calibrationData.length - 1].volume;
+
+    input1.addEventListener('input', function () {
+        var level = parseFloat(this.value);
+
+        if (isNaN(level)) {
+            input2.value = '';
+            return;
+        }
+
+        if (level > maxLevel) {
+            input2.value = '';
+            return;
+        }
+
+        var index = calibrationData.findIndex(function (calibration) {
+            return calibration.level >= level;
+        });
+
+        if (index === 0) {
+            input2.value = calibrationData[0].volume.toFixed(2);
+        }
+        else if (index === -1) {
+            input2.value = calibrationData[calibrationData.length - 1].volume.toFixed(2);
+        }
+        else {
+            var level1 = calibrationData[index - 1].level;
+            var volume1 = calibrationData[index - 1].volume;
+            var level2 = calibrationData[index].level;
+            var volume2 = calibrationData[index].volume;
+
+            var volume = volume1 + (level - level1) * (volume2 - volume1) / (level2 - level1);
+
+            input2.value = volume.toFixed(2);
+        }
+    });
+
+    input2.addEventListener('input', function () {
+        var volume = parseFloat(this.value);
+
+        if (isNaN(volume)) {
+            input1.value = '';
+            return;
+        }
+
+        if (volume > maxVolume) {
+            input1.value = '';
+            return;
+        }
+
+        var index = calibrationData.findIndex(function (calibration) {
+            return calibration.volume >= volume;
+        });
+
+        if (index === 0) {
+            input1.value = calibrationData[0].level.toFixed(2);
+        }
+        else if (index === -1) {
+            input1.value = calibrationData[calibrationData.length - 1].level.toFixed(2);
+        }
+        else {
+            var volume1 = calibrationData[index - 1].volume;
+            var level1 = calibrationData[index - 1].level;
+            var volume2 = calibrationData[index].volume;
+            var level2 = calibrationData[index].level;
+
+            var level = level1 + (volume - volume1) * (level2 - level1) / (volume2 - volume1);
+
+            input1.value = level.toFixed(2);
+        }
+    });
+</script>

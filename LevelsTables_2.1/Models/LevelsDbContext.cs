@@ -102,11 +102,14 @@ namespace LevelsTables.Models
                 new TankForStation { Id = 12, StationId = 4, ContainWhat = "Diesel", Data = 26000, DateOfLastUpdate = DateTime.Now.AddDays(-1) },
                 new TankForStation { Id = 13, StationId = 5, ContainWhat = "Gas", Data = 4000, DateOfLastUpdate = DateTime.Now.AddDays(-1) },
                 new TankForStation { Id = 14, StationId = 5, ContainWhat = "Petrol", Data = 9000, DateOfLastUpdate = DateTime.Now.AddDays(-1) },
-                new TankForStation { Id = 15, StationId = 5, ContainWhat = "Petrol", Data = 14000, DateOfLastUpdate = DateTime.Now.AddDays(-1) }
+                new TankForStation { Id = 15, StationId = 5, ContainWhat = "Petrol", Data = 14000, DateOfLastUpdate = DateTime.Now.AddDays(-1) },
+                new TankForStation { Id = 16, StationId = 1, ContainWhat = "Gas", Data = 10000, DateOfLastUpdate = DateTime.Now.AddDays(-1) },
+                new TankForStation { Id = 17, StationId = 1, ContainWhat = "Diesel", Data = 10000, DateOfLastUpdate = DateTime.Now.AddDays(-1) }
+
             );
 
             builder.Entity<Kassa>().HasData(
-                new Kassa { Id = 1, StationId = 1, ContainWhat = "Gas", Data = 22000, DateOfLastUpdate = DateTime.Now.AddDays(-1), DateOfLastIn = DateTime.Now.AddDays(-2) },
+                new Kassa { Id = 1, StationId = 1, ContainWhat = "Gas", Data = 32000, DateOfLastUpdate = DateTime.Now.AddDays(-1), DateOfLastIn = DateTime.Now.AddDays(-2) },
                 new Kassa { Id = 2, StationId = 1, ContainWhat = "Petrol", Data = 15000, DateOfLastUpdate = DateTime.Now.AddDays(-1), DateOfLastIn = DateTime.Now.AddDays(-2) },
                 new Kassa { Id = 3, StationId = 2, ContainWhat = "Diesel", Data = 42000, DateOfLastUpdate = DateTime.Now.AddDays(-1), DateOfLastIn = DateTime.Now.AddDays(-2) },
                 new Kassa { Id = 4, StationId = 3, ContainWhat = "Petrol", Data = 53000, DateOfLastUpdate = DateTime.Now, DateOfLastIn = DateTime.Now.AddDays(-1) },
@@ -114,7 +117,9 @@ namespace LevelsTables.Models
                 new Kassa { Id = 6, StationId = 4, ContainWhat = "Diesel", Data = 26000, DateOfLastUpdate = DateTime.Now, DateOfLastIn = DateTime.Now.AddDays(-1) },
                 new Kassa { Id = 7, StationId = 4, ContainWhat = "Petrol", Data = 24000, DateOfLastUpdate = DateTime.Now, DateOfLastIn = DateTime.Now.AddDays(-1) },
                 new Kassa { Id = 8, StationId = 5, ContainWhat = "Gas", Data = 4000, DateOfLastUpdate = DateTime.Now, DateOfLastIn = DateTime.Now.AddDays(-1) },
-                new Kassa { Id = 9, StationId = 5, ContainWhat = "Petrol", Data = 23000, DateOfLastUpdate = DateTime.Now.AddDays(-1), DateOfLastIn = DateTime.Now.AddDays(-1) }
+                new Kassa { Id = 9, StationId = 5, ContainWhat = "Petrol", Data = 23000, DateOfLastUpdate = DateTime.Now.AddDays(-1), DateOfLastIn = DateTime.Now.AddDays(-1) },
+                new Kassa { Id = 10, StationId = 2, ContainWhat = "Gas", Data = 18000, DateOfLastUpdate = DateTime.Now, DateOfLastIn = DateTime.Now.AddDays(-1) },
+                new Kassa { Id = 11, StationId = 1, ContainWhat = "Diesel", Data = 10000, DateOfLastUpdate = DateTime.Now.AddDays(-1), DateOfLastIn = DateTime.Now.AddDays(-2) }
 
             );
             base.OnModelCreating(builder);

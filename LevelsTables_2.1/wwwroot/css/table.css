@@ -3,6 +3,7 @@
     border-spacing: 0;
     padding: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    height: 100%; 
 }
 
     .tg td {
@@ -30,4 +31,16 @@
 
 .hdr {
     background-color: #f7f7f7 !important;
+}
+
+.table-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap into the next row */
+    margin-bottom: 15px; /* Space between rows */
+}
+
+
+.table-wrapper {
+    flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
+    margin: 15px; /* Space around each table */
 }
