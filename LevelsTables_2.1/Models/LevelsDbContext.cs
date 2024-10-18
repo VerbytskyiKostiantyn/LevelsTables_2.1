@@ -80,11 +80,11 @@ namespace LevelsTables.Models
                 }
             );
             builder.Entity<Station>().HasData(
-                new Station { Id = 1, Name = "Station 1" },
-                new Station { Id = 2, Name = "Station 2" },
-                new Station { Id = 3, Name = "Station 3" },
-                new Station { Id = 4, Name = "Station 4" },
-                new Station { Id = 5, Name = "Station 5" }
+                new Station { Id = 1, Name = "Station 123" },
+                new Station { Id = 2, Name = "Station 212" },
+                new Station { Id = 3, Name = "Station 354" },
+                new Station { Id = 4, Name = "Station 421" },
+                new Station { Id = 5, Name = "Station 554" }
             );
 
             builder.Entity<TankForStation>().HasData(

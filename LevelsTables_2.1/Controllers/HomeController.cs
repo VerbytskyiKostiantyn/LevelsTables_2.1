@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
 using LevelsTables.Models.Tables;
+using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace LevelsTables.Controllers
 {
@@ -160,15 +162,15 @@ namespace LevelsTables.Controllers
             //return RedirectToAction("Info", new {id = id});
         }
 
-        
+
         [HttpPost]
         public IActionResult Update(IFormFile file)
         {
             List<Calibration> calibrationList = new List<Calibration>();
             try
             {
-                    string jsonData = new StreamReader(file.OpenReadStream()).ReadToEnd();
-                    calibrationList = JsonConvert.DeserializeObject<List<Calibration>>(jsonData);
+                string jsonData = new StreamReader(file.OpenReadStream()).ReadToEnd();
+                calibrationList = JsonConvert.DeserializeObject<List<Calibration>>(jsonData);
             }
             catch
             {
@@ -210,6 +212,32 @@ namespace LevelsTables.Controllers
                 return Ok();
             }
         }
+        [HttpGet]
+        [Route("/getCsv/{id}/{date}")]
+        public async Task<IActionResult> GetCsv(int id, long date)
+        {
+            var values = await _db.Calibrations
+                .Where(q => q.TankId == id && q.timeOfUploadOrUpdate == date)
+                .OrderBy(q => q.Level)
+                .ToListAsync();
+
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            var csvWriter = new CsvWriter(writer, new CsvConfiguration(new CultureInfo("uk-UA"))
+            {
+                HasHeaderRecord = true,
+                Delimiter = ";" 
+            });
+
+            csvWriter.WriteRecords(values);
+
+            writer.Flush();
+            stream.Position = 0;
+
+            return File(stream, "text/csv", $"calibrations_{id}_{date}.csv");
+        }
+
+
 
         [HttpGet]
         public async Task<string> GetTable(int id, long? date)

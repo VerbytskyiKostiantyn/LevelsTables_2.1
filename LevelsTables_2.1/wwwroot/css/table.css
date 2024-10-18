@@ -13,7 +13,7 @@
         font-family: Arial, sans-serif;
         font-size: 14px;
         overflow: hidden;
-        padding: 7px;
+        padding: 5px;
         word-break: normal;
         text-align: center;
         vertical-align: middle;
@@ -42,5 +42,31 @@
 
 .table-wrapper {
     flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
-    margin: 15px; /* Space around each table */
+    margin: 15px 15px 15px 5px; /* Space around each table */
 }
+
+.close-button {
+    display: inline-flex; /* Використовується для вирівнювання тексту та хрестика */
+    align-items: center; /* Вертикальне вирівнювання */
+    background-color: transparent; /* Прозорий фон */
+    border: none; /* Без рамки */
+    padding: 0px 0px 0px 20px;
+}
+
+.close-icon {
+    background-color: transparent; /* Прозорий фон для кнопки хрестика */
+    border: none; /* Без рамки */
+    cursor: pointer; /* Курсор вказує на натискання */
+}
+
+    .close-icon .glyphicon-remove {
+        font-size: 15px;
+    }
+
+    .close-icon:hover .glyphicon-remove {
+        color: red; /* Зміна кольору при наведенні */
+    }
+
+    .close-icon:active .glyphicon-remove {
+        color: red; /* Зміна кольору при натисканні */
+    }

@@ -119,6 +119,9 @@
                     <button type="submit" id="update-button">Оновити</button>
 
                     <br />
+                    <button type="submit" id="upload-button">Отримати CSV</button>
+
+                    <br />
                 }
                 <div id="example-table"></div>
             </td>
@@ -264,6 +267,50 @@
             $('body').css('cursor', 'default');
         }
     </script>
+    <script>
+        $(document).ready(function () {
+            $('#upload-button').click(function () {
+                var id = @Model.Calibrations.FirstOrDefault().TankId;
+                var unixDate = @Model.Calibrations.FirstOrDefault().timeOfUploadOrUpdate;
+
+                var offsetMinutes = new Date().getTimezoneOffset();
+                var offsetHours = offsetMinutes / 60;
+
+                var date = new Date(Date.UTC(1970, 0, 1, 0, 0, 0));
+                date.setSeconds(date.getSeconds() + unixDate);
+                date.setHours(date.getHours() + offsetHours);
+
+                var dateString = date.toLocaleDateString();
+                var timeString = date.toLocaleTimeString();
+
+
+                var url = `/getCsv/${id}/${unixDate}`;
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (data) {
+                        var filename = `calibrations_${id}_(${timeString})_${dateString}.csv`;
+
+                        var link = document.createElement('a');
+                        var url = window.URL.createObjectURL(data);
+                        link.href = url;
+                        link.download = filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error during file download:", error);
+                    }
+                });
+            });
+        });
+    </script>
 }
 <script>
     var calibrationData = @Html.Raw(Json.Serialize(Model.Calibrations));
@@ -348,3 +395,4 @@
         }
     });
 </script>
+
