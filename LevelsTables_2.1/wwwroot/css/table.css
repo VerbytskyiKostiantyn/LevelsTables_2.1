@@ -70,3 +70,54 @@
     .close-icon:active .glyphicon-remove {
         color: red; /* Зміна кольору при натисканні */
     }
+
+/* Стилізація модального вікна */
+.modal {
+    display: none; /* Сховати модальне вікно за замовчуванням */
+    position: fixed; /* Фіксована позиція */
+    top: 0; /* Верхній край вікна */
+    left: 0; /* Лівий край вікна */
+    width: 100%; /* Ширина вікна */
+    height: 100%; /* Висота вікна */
+    background-color: rgba(0, 0, 0, 0.2); /* Прозоре тло */
+    z-index: 1; /* Індекс з-рівня для розміщення поверх інших елементів */
+}
+
+.modal-content {
+    position: absolute; /* Абсолютна позиція вмісту */
+    top: 50%; /* Верхній край вмісту */
+    left: 50%; /* Лівий край вмісту */
+    transform: translate(-50%, -50%); /* Переміщення вмісту в центр вікна */
+    width: 80%; /* Ширина вмісту */
+    height: 80%; /* Висота вмісту */
+    background-color: #fff; /* Колір тла вмісту */
+    border-radius: 10px; /* Радіус закруглення кутів вмісту */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Тінь вмісту */
+    padding: 15px; /* Відступ вмісту */
+}
+
+.modal-div-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.modal-div {
+    flex: 1 1 200px; /* Flex-grow, flex-shrink, flex-basis */
+    margin: 15px 15px 15px 5px;
+}
+
+
+.close {
+    position: absolute; /* Абсолютна позиція */
+    top: 10px; /* Відступ зверху */
+    right: 10px; /* Відступ справа */
+    background: none; /* Без фону */
+    border: none; /* Без рамки */
+    font-size: 30px; /* Розмір шрифту */
+    cursor: pointer; /* Курсор при наведенні */
+}
+
+
+    .close:hover {
+        color: #000; /* Колір тексту при наведенні */
+    }

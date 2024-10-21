@@ -1,4 +1,5 @@
-﻿const searchInput = document.getElementById('search');
+﻿
+const searchInput = document.getElementById('search');
 const closeButton = document.getElementById('closeButton');
 const closeButtonCross = document.getElementById('closeButtonCross');
 //const buttons = document.querySelectorAll('.hidden-xs .btn');
@@ -11,7 +12,7 @@ const tableWrappers = document.querySelectorAll('.table-container > .table-wrapp
 let isFiltered = false;
 let buttonFilterValue = '';
 let previouslySelectedButton = null;
-let targetButton = null; 
+let targetButton = null;
 
 const sortedTableWrappers = Array.prototype.slice.call(tableWrappers).sort((a, b) => {
     const stationNameA = a.querySelector('table.tg > tbody > tr > td[colspan="5"]').textContent.trim().toLowerCase();
@@ -44,7 +45,7 @@ buttons.forEach(button => {
 
             getButtonByInnerText(button, baseButtons).style.backgroundColor = '#7ad8fa';
             getButtonByInnerText(button, dropdownButtons).style.backgroundColor = '#7ad8fa';
-            
+
         } else if (previouslySelectedButton && isFiltered) {
             //previouslySelectedButton.style.backgroundColor = '#7ad8fa';
             //button.style.backgroundColor = '#fa7a7a';
@@ -72,7 +73,6 @@ buttons.forEach(button => {
         filterTableWrappers(searchInput.value.trim().toLowerCase(), buttonFilterValue);
     });
 });
-
 closeButtonCross.addEventListener("click", function (event) {
     isFiltered = false;
     getButtonByInnerText(previouslySelectedButton, baseButtons).style.backgroundColor = '#7ad8fa';
@@ -111,3 +111,31 @@ function filterTableWrappers(searchText, buttonFilterValue) {
         tableWrapper.style.display = 'block';
     });
 }
+
+
+document.querySelectorAll('.table-row').forEach(function (row) {
+    row.addEventListener('click', function () {
+        var modalId = this.getAttribute('data-modal-id');
+        var modal = document.getElementById(modalId);
+
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = ''; 
+            }
+        });
+
+        var closeModalButtons = document.querySelectorAll('.close');
+        closeModalButtons.forEach(function (closeModalButton) {
+            closeModalButton.addEventListener('click', () => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; 
+            });
+        });
+    });
+});
+
