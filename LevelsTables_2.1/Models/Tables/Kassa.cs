@@ -11,7 +11,7 @@ namespace LevelsTables.Models.Tables
         public Station Station { get; set; }
         public string ContainWhat { get; set; }
         public long Data {  get; set; }
-        public DateTime DateOfLastUpdate { get; set; }
-        public DateTime DateOfLastIn { get; set; }
+        public long DateOfLastUpdate { get; set; }
+        public long DateOfLastIn { get; set; }
     }
 }

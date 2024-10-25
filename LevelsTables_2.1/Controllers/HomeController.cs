@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using LevelsTables.Models.Tables;
 using Newtonsoft.Json.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace LevelsTables.Controllers
 {
@@ -37,7 +38,86 @@ namespace LevelsTables.Controllers
         public IActionResult Table()
         {
             var data = _db.Stations.Include(q => q.Kassas).Include(q => q.TankForStations).OrderBy(q => q.Id).ToList();
+
+            foreach (Station station in data)
+            {
+                List<Kassa> kassasOfDiesel = station.Kassas.Where(t => t.ContainWhat == "Diesel").ToList();
+                List<Kassa> kassasOfPetrol = station.Kassas.Where(t => t.ContainWhat == "Petrol").ToList();
+                List<Kassa> kassasOfGas = station.Kassas.Where(t => t.ContainWhat == "Gas").ToList();
+
+                if (kassasOfDiesel.Any(t => t.ContainWhat == "Diesel"))
+                {
+                    station.DisplayLastInOfDieselKassa = TimeZoneInfo.ConvertTimeFromUtc(DateTimeOffset.FromUnixTimeSeconds(kassasOfDiesel.LastOrDefault().DateOfLastIn).UtcDateTime, TimeZoneInfo.FindSystemTimeZoneById("E. Europe Standard Time"));
+                    long averageUpdateOfDiesel = (long)kassasOfDiesel.Select(q => q.DateOfLastUpdate).Average();
+                    station.ColorOfDieselKassa = getColor(averageUpdateOfDiesel);
+                    foreach (Kassa kassa in kassasOfDiesel)
+                    {
+                        station.DisplayDataOfDieselKassa += kassa.Data;
+                    }
+                    station.CountOfDieselTanks = station.TankForStations.Where(t => t.ContainWhat == "Diesel").Count();
+                    foreach (TankForStation tank in station.TankForStations.Where(t => t.ContainWhat == "Diesel"))
+                    {
+                        tank.Color = getColor(tank.DateOfLastUpdate);
+                    }
+                }
+
+                if (kassasOfPetrol.Any(t => t.ContainWhat == "Petrol"))
+                {
+                    station.DisplayLastInOfPetrolKassa = TimeZoneInfo.ConvertTimeFromUtc(DateTimeOffset.FromUnixTimeSeconds(kassasOfPetrol.LastOrDefault().DateOfLastIn).UtcDateTime, TimeZoneInfo.FindSystemTimeZoneById("E. Europe Standard Time"));
+                    long averageUpdateOfPetrol = (long)kassasOfPetrol.Select(q => q.DateOfLastUpdate).Average();
+                    station.ColorOfPetrolKassa = getColor(averageUpdateOfPetrol);
+                    foreach (Kassa kassa in kassasOfPetrol)
+                    {
+                        station.DisplayDataOfPetrolKassa += kassa.Data;
+                    }
+                    station.CountOfPetrolTanks = station.TankForStations.Where(t => t.ContainWhat == "Petrol").Count();
+                    foreach (TankForStation tank in station.TankForStations.Where(t => t.ContainWhat == "Petrol"))
+                    {
+                        tank.Color = getColor(tank.DateOfLastUpdate);
+                    }
+                }
+
+                if (kassasOfGas.Any(t => t.ContainWhat == "Gas"))
+                {
+                    station.DisplayLastInOfGasKassa = TimeZoneInfo.ConvertTimeFromUtc(DateTimeOffset.FromUnixTimeSeconds(kassasOfGas.LastOrDefault().DateOfLastIn).UtcDateTime, TimeZoneInfo.FindSystemTimeZoneById("E. Europe Standard Time"));
+                    long averageUpdateOfGas = (long)kassasOfGas.Select(q => q.DateOfLastUpdate).Average();
+                    station.ColorOfGasKassa = getColor(averageUpdateOfGas);
+                    foreach (Kassa kassa in kassasOfGas)
+                    {
+                        station.DisplayDataOfGasKassa += kassa.Data;
+                    }
+                    station.CountOfGasTanks = station.TankForStations.Where(t => t.ContainWhat == "Gas").Count();
+                    foreach (TankForStation tank in station.TankForStations.Where(t => t.ContainWhat == "Gas"))
+                    {
+                        tank.Color = getColor(tank.DateOfLastUpdate);
+                    }
+                }
+            }
+
             return View(data);
+        }
+        public string getColor(long time)
+        {
+            long currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            long timeMinusFour = currentTime - 14400;
+            long timeMinusEigth = currentTime - 28800;
+
+            string redColor = "#fa4925";
+            string yellowColor = "#ffde70";
+            string noColor = "";
+
+            if (time < timeMinusEigth)
+            {
+                return redColor;
+            }
+            else if (time < timeMinusFour)
+            {
+                return yellowColor;
+            }
+            else
+            {
+                return noColor;
+            }
         }
 
 
@@ -226,7 +306,7 @@ namespace LevelsTables.Controllers
             var csvWriter = new CsvWriter(writer, new CsvConfiguration(new CultureInfo("uk-UA"))
             {
                 HasHeaderRecord = true,
-                Delimiter = ";" 
+                Delimiter = ";"
             });
 
             csvWriter.WriteRecords(values);

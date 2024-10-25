@@ -50,7 +50,7 @@
     </div>
 </div>
 
-@for (int j = 0; j < 2; j++)
+@for (int j = 0; j < 1; j++)
 {
     @foreach (Station station in Model)
     {
@@ -68,6 +68,7 @@
                         @if (station.TankForStations.Any(t => t.ContainWhat == "Diesel"))
                         {
                             <h4>Дизель</h4>
+                            <h5>Резервуари</h5>
                             @foreach (TankForStation tankForStation in station.TankForStations.Where(t => t.ContainWhat == "Diesel"))
                             {
                                 <span>№@tankForStation.Id</span>
@@ -75,11 +76,11 @@
                                 <span style="margin-left: 10px;">@tankForStation.DateOfLastUpdate</span>
                                 <br />
                             }
-                            <h5>Каса</h5>
+                            <h5>Каси</h5>
                             List<Kassa> kassas = station.Kassas.Where(t => t.ContainWhat == "Diesel").ToList();
-                            @for(int i = 0; i< kassas.Count();i++)
+                            @for (int i = 0; i < kassas.Count(); i++)
                             {
-                                <span>№@(i+1)</span>
+                                <span>№@(i + 1)</span>
                                 <span style="margin-left: 10px;">@kassas[i].Data</span>
                                 <span style="margin-left: 10px;">@kassas[i].DateOfLastUpdate</span>
                                 <br />
@@ -87,12 +88,16 @@
                                 <span style="margin-left: 10px;">@kassas[i].DateOfLastIn</span>
                                 <br />
                             }
+
+                            <span>Продажа за минулий день:</span>
+                            <span>112222</span>
                         }
                     </div>
                     <div class="modal-div">
                         @if (station.TankForStations.Any(t => t.ContainWhat == "Petrol"))
                         {
                             <h4>Бензин</h4>
+                            <h5>Резервуари</h5>
                             @foreach (TankForStation tankForStation in station.TankForStations.Where(t => t.ContainWhat == "Petrol"))
                             {
                                 <span>№@tankForStation.Id</span>
@@ -100,7 +105,7 @@
                                 <span style="margin-left: 10px;">@tankForStation.DateOfLastUpdate</span>
                                 <br />
                             }
-                            <h5>Каса</h5>
+                            <h5>Каси</h5>
                             List<Kassa> kassas = station.Kassas.Where(t => t.ContainWhat == "Petrol").ToList();
                             @for (int i = 0; i < kassas.Count(); i++)
                             {
@@ -112,12 +117,16 @@
                                 <span style="margin-left: 10px;">@kassas[i].DateOfLastIn</span>
                                 <br />
                             }
+
+                            <span>Продажа за минулий день:</span>
+                            <span>112222</span>
                         }
                     </div>
                     <div class="modal-div">
                         @if (station.TankForStations.Any(t => t.ContainWhat == "Gas"))
                         {
                             <h4>Газ</h4>
+                            <h5>Резервуари</h5>
                             @foreach (TankForStation tankForStation in station.TankForStations.Where(t => t.ContainWhat == "Gas"))
                             {
                                 <span>№@tankForStation.Id</span>
@@ -125,7 +134,7 @@
                                 <span style="margin-left: 10px;">@tankForStation.DateOfLastUpdate</span>
                                 <br />
                             }
-                            <h5>Каса</h5>
+                            <h5>Каси</h5>
                             List<Kassa> kassas = station.Kassas.Where(t => t.ContainWhat == "Gas").ToList();
                             @for (int i = 0; i < kassas.Count(); i++)
                             {
@@ -137,6 +146,9 @@
                                 <span style="margin-left: 10px;">@kassas[i].DateOfLastIn</span>
                                 <br />
                             }
+
+                            <span>Продажа за минулий день:</span>
+                            <span>112222</span>
                         }
                     </div>
                 </div>
@@ -148,7 +160,7 @@
 
 
 <div class="table-container">
-    @for (int j = 0; j < 2; j++)
+    @for (int j = 0; j < 1; j++)
     {
         @foreach (Station station in Model)
         {
@@ -172,24 +184,7 @@
                             </tr>
 
 
-
                             int i = 0;
-
-                            int countOfTanks = station.TankForStations.Where(t => t.ContainWhat == "Diesel").Count();
-
-                            List<Kassa> kassas = station.Kassas.Where(t => t.ContainWhat == "Diesel").ToList();
-
-                            long dataOfkassa = 0;
-                            foreach (Kassa kassa in kassas)
-                            {
-                                dataOfkassa += kassa.Data;
-                            }
-
-                            var averageDateTicks = (long)kassas.Select(q => q.DateOfLastUpdate.Ticks).Average();
-                            var avarageDateOfLastUpdate = new DateTime(averageDateTicks);
-
-                            var timeMinusFour = DateTime.Now.AddHours(-4);
-                            var timeMinusEigth = DateTime.Now.AddHours(-8);
 
                             @foreach (TankForStation tankForStation in station.TankForStations.Where(t => t.ContainWhat == "Diesel"))
                             {
@@ -197,44 +192,18 @@
                                 {
                                     <tr>
                                         <td class="">@tankForStation.Id</td>
-                                        @if (avarageDateOfLastUpdate <= timeMinusEigth)
-                                        {
-                                            <td style="background-color:#fa4925" class="" rowspan="@countOfTanks">@dataOfkassa</td>
-                                        }else if(avarageDateOfLastUpdate <= timeMinusFour)
-                                        {
-                                            <td style="background-color:#ffde70" class="" rowspan="@countOfTanks">@dataOfkassa</td>
-                                        }else{
-                                            <td style="" class="" rowspan="@countOfTanks">@dataOfkassa</td>
-                                        }
-                                        @if (tankForStation.DateOfLastUpdate <= timeMinusEigth)
-                                        {
-                                            <td style="background-color:#fa4925" class="">@tankForStation.Data</td>
-                                        }else if(tankForStation.DateOfLastUpdate <= timeMinusFour)
-                                        {
-                                            <td style="background-color:#ffde70" class="">@tankForStation.Data</td>
-                                        }else{
-                                            <td style="" class="">@tankForStation.Data</td>
-                                        }
-                                        <td class="" rowspan="@countOfTanks">@kassas.LastOrDefault().DateOfLastIn</td>
-                                        <td class="" rowspan="@countOfTanks">122222</td>
+                                        <td style="background-color:@station.ColorOfDieselKassa" class="" rowspan="@station.CountOfDieselTanks">@station.DisplayDataOfDieselKassa</td>
+                                        <td style="background-color:@tankForStation.Color" class="">@tankForStation.Data</td>
+
+                                        <td class="" rowspan="@station.CountOfDieselTanks">@station.DisplayLastInOfDieselKassa</td>
+                                        <td class="" rowspan="@station.CountOfDieselTanks">122222</td>
                                     </tr>
                                 }
                                 else
                                 {
                                     <tr>
                                         <td class="">@tankForStation.Id</td>
-                                        @if (tankForStation.DateOfLastUpdate <= timeMinusEigth)
-                                        {
-                                            <td style="background-color:#fa4925" class="">@tankForStation.Data</td>
-                                        }
-                                        else if (tankForStation.DateOfLastUpdate <= timeMinusFour)
-                                        {
-                                            <td style="background-color:#ffde70" class="">@tankForStation.Data</td>
-                                        }
-                                        else
-                                        {
-                                            <td style="" class="">@tankForStation.Data</td>
-                                        }
+                                        <td style="background-color:@tankForStation.Color" class="">@tankForStation.Data</td>
                                     </tr>
                                 }
                                 i++;
@@ -251,22 +220,7 @@
                                 <td class="hdr" style="width: min-content">Продажа</td>
                             </tr>
                             int i = 0;
-
-
-                            int countOfTanks = station.TankForStations.Where(t => t.ContainWhat == "Petrol").Count();
-                            List<Kassa> kassas = station.Kassas.Where(t => t.ContainWhat == "Petrol").ToList();
-
-                            long dataOfkassa = 0;
-                            foreach (Kassa kassa in kassas)
-                            {
-                                dataOfkassa += kassa.Data;
-                            }
-
-                            var averageDateTicks = (long)kassas.Select(q => q.DateOfLastIn.Ticks).Average();
-                            var avarageDateOfLastUpdate = new DateTime(averageDateTicks);
-
-                            var timeMinusFour = DateTime.Now.AddHours(-4);
-                            var timeMinusEigth = DateTime.Now.AddHours(-8);
+                            
 
                             @foreach (TankForStation tankForStation in station.TankForStations.Where(t => t.ContainWhat == "Petrol"))
                             {
@@ -274,55 +228,21 @@
                                 {
                                     <tr>
                                         <td class="">@tankForStation.Id</td>
-                                        @if (avarageDateOfLastUpdate <= timeMinusEigth)
-                                        {
-                                            <td style="background-color:#fa4925" class="" rowspan="@countOfTanks">@dataOfkassa</td>
-                                        }
-                                        else if (avarageDateOfLastUpdate <= timeMinusFour)
-                                        {
-                                            <td style="background-color:#ffde70" class="" rowspan="@countOfTanks">@dataOfkassa</td>
-                                        }
-                                        else
-                                        {
-                                            <td style="" class="" rowspan="@countOfTanks">@dataOfkassa</td>
-                                        }
-                                        @if (tankForStation.DateOfLastUpdate <= timeMinusEigth)
-                                        {
-                                            <td style="background-color:#fa4925" class="">@tankForStation.Data</td>
-                                        }
-                                        else if (tankForStation.DateOfLastUpdate <= timeMinusFour)
-                                        {
-                                            <td style="background-color:#ffde70" class="">@tankForStation.Data</td>
-                                        }
-                                        else
-                                        {
-                                            <td style="" class="">@tankForStation.Data</td>
-                                        }
-                                        <td class="" rowspan="@countOfTanks">@kassas.LastOrDefault().DateOfLastIn</td>
-                                        <td class="" rowspan="@countOfTanks">122222</td>
+                                        <td style="background-color:@station.ColorOfPetrolKassa" class="" rowspan="@station.CountOfPetrolTanks">@station.DisplayDataOfPetrolKassa</td>
+                                        <td style="background-color:@tankForStation.Color" class="">@tankForStation.Data</td>
+
+                                        <td class="" rowspan="@station.CountOfPetrolTanks">@station.DisplayLastInOfPetrolKassa</td>
+                                        <td class="" rowspan="@station.CountOfPetrolTanks">122222</td>
                                     </tr>
                                 }
                                 else
                                 {
                                     <tr>
                                         <td class="">@tankForStation.Id</td>
-                                        @if (tankForStation.DateOfLastUpdate <= timeMinusEigth)
-                                        {
-                                            <td style="background-color:#fa4925" class="">@tankForStation.Data</td>
-                                        }
-                                        else if (tankForStation.DateOfLastUpdate <= timeMinusFour)
-                                        {
-                                            <td style="background-color:#ffde70" class="">@tankForStation.Data</td>
-                                        }
-                                        else
-                                        {
-                                            <td style="" class="">@tankForStation.Data</td>
-                                        }
+                                        <td style="background-color:@tankForStation.Color" class="">@tankForStation.Data</td>
                                     </tr>
                                 }
-
                                 i++;
-
                             }
                         }
                         @if (station.TankForStations.Any(t => t.ContainWhat == "Gas"))
@@ -337,21 +257,6 @@
 
                             int i = 0;
 
-                            int countOfTanks = station.TankForStations.Where(t => t.ContainWhat == "Gas").Count();
-                            List<Kassa> kassas = station.Kassas.Where(t => t.ContainWhat == "Gas").ToList();
-
-                            long dataOfkassa = 0;
-                            foreach (Kassa kassa in kassas)
-                            {
-                                dataOfkassa += kassa.Data;
-                            }
-
-                            var averageDateTicks = (long)kassas.Select(q => q.DateOfLastIn.Ticks).Average();
-                            var avarageDateOfLastUpdate = new DateTime(averageDateTicks);
-
-                            var timeMinusFour = DateTime.Now.AddHours(-4);
-                            var timeMinusEigth = DateTime.Now.AddHours(-8);
-
 
                             @foreach (TankForStation tankForStation in station.TankForStations.Where(t => t.ContainWhat == "Gas"))
                             {
@@ -359,56 +264,21 @@
                                 {
                                     <tr>
                                         <td class="">@tankForStation.Id</td>
-                                        @if (avarageDateOfLastUpdate <= timeMinusEigth)
-                                        {
-                                            <td style="background-color:#fa4925" class="" rowspan="@countOfTanks">@dataOfkassa</td>
-                                        }
-                                        else if (avarageDateOfLastUpdate <= timeMinusFour)
-                                        {
-                                            <td style="background-color:#ffde70" class="" rowspan="@countOfTanks">@dataOfkassa</td>
-                                        }
-                                        else
-                                        {
-                                            <td style="" class="" rowspan="@countOfTanks">@dataOfkassa</td>
-                                        }
-                                        @if (tankForStation.DateOfLastUpdate <= timeMinusEigth)
-                                        {
-                                            <td style="background-color:#fa4925" class="">@tankForStation.Data</td>
-                                        }
-                                        else if (tankForStation.DateOfLastUpdate <= timeMinusFour)
-                                        {
-                                            <td style="background-color:#ffde70" class="">@tankForStation.Data</td>
-                                        }
-                                        else
-                                        {
-                                            <td style="" class="">@tankForStation.Data</td>
-                                        }
-                                        <td class="" rowspan="@countOfTanks">@kassas.LastOrDefault().DateOfLastIn</td>
-                                        <td class="" rowspan="@countOfTanks">122222</td>
+                                        <td style="background-color:@station.ColorOfGasKassa" class="" rowspan="@station.CountOfGasTanks">@station.DisplayDataOfGasKassa</td>
+                                        <td style="background-color:@tankForStation.Color" class="">@tankForStation.Data</td>
+
+                                        <td class="" rowspan="@station.CountOfGasTanks">@station.DisplayLastInOfGasKassa</td>
+                                        <td class="" rowspan="@station.CountOfGasTanks">122222</td>
                                     </tr>
                                 }
                                 else
                                 {
                                     <tr>
                                         <td class="">@tankForStation.Id</td>
-                                        @if (tankForStation.DateOfLastUpdate <= timeMinusEigth)
-                                        {
-                                            <td style="background-color:#fa4925" class="">@tankForStation.Data</td>
-                                        }
-                                        else if (tankForStation.DateOfLastUpdate <= timeMinusFour)
-                                        {
-                                            <td style="background-color:#ffde70" class="">@tankForStation.Data</td>
-                                        }
-                                        else
-                                        {
-                                            <td style="" class="">@tankForStation.Data</td>
-                                        }
+                                        <td style="background-color:@tankForStation.Color" class="">@tankForStation.Data</td>
                                     </tr>
                                 }
-
                                 i++;
-
-
                             }
                         }
                     </tbody>
@@ -417,8 +287,7 @@
         }
     }
 </div>
-@* <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script> *@
 <script src="~/js/table.js" asp-append-version="true"></script>
-<script> 
-        
+<script>
+
 </script>

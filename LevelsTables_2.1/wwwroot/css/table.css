@@ -84,28 +84,40 @@
 }
 
 .modal-content {
-    position: absolute; /* Абсолютна позиція вмісту */
-    top: 50%; /* Верхній край вмісту */
-    left: 50%; /* Лівий край вмісту */
-    transform: translate(-50%, -50%); /* Переміщення вмісту в центр вікна */
-    width: 80%; /* Ширина вмісту */
-    height: 80%; /* Висота вмісту */
+    position: relative; /* Абсолютна позиція вмісту */
+    margin: 5% auto;
+    min-height: 80%;
+    max-width: 90%; /* Максимальна ширина для телефонів */
+    max-height: 90%; /* Максимальна висота для телефонів */
     background-color: #fff; /* Колір тла вмісту */
     border-radius: 10px; /* Радіус закруглення кутів вмісту */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Тінь вмісту */
     padding: 15px; /* Відступ вмісту */
+    overflow: auto; /* Дозволити прокручування вмісту */
 }
 
 .modal-div-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between; /* Простір між div */
 }
 
 .modal-div {
     flex: 1 1 200px; /* Flex-grow, flex-shrink, flex-basis */
     margin: 15px 15px 15px 5px;
+    min-width: 150px; /* Мінімальна ширина для кожного div */
 }
 
+@media (max-width: 600px) {
+    .modal-content {
+        max-width: 95%; /* Збільшити для телефонів */
+        max-height: 95%; /* Більший відсоток екрану для телефонів */
+    }
+
+    .modal-div {
+        flex: 1 1 100%; /* Кожен div займає всю ширину на маленьких екранах */
+    }
+}
 
 .close {
     position: absolute; /* Абсолютна позиція */

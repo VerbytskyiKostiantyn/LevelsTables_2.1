@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LevelsTables_2._1.Migrations
 {
     [DbContext(typeof(LevelsDbContext))]
-    [Migration("20241009125136_createAndSeedForStationView")]
-    partial class createAndSeedForStationView
+    [Migration("20241024084858_seedKassasAndTnkForStationsTables")]
+    partial class seedKassasAndTnkForStationsTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -110,9 +110,9 @@ namespace LevelsTables_2._1.Migrations
 
                     b.Property<long>("Data");
 
-                    b.Property<DateTime>("DateOfLastIn");
+                    b.Property<long>("DateOfLastIn");
 
-                    b.Property<DateTime>("DateOfLastUpdate");
+                    b.Property<long>("DateOfLastUpdate");
 
                     b.Property<int>("StationId");
 
@@ -123,15 +123,17 @@ namespace LevelsTables_2._1.Migrations
                     b.ToTable("Kassas");
 
                     b.HasData(
-                        new { Id = 1, ContainWhat = "Gas", Data = 22000L, DateOfLastIn = new DateTime(2024, 10, 7, 15, 51, 36, 187, DateTimeKind.Local), DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), StationId = 1 },
-                        new { Id = 2, ContainWhat = "Petrol", Data = 15000L, DateOfLastIn = new DateTime(2024, 10, 7, 15, 51, 36, 187, DateTimeKind.Local), DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), StationId = 1 },
-                        new { Id = 3, ContainWhat = "Diesel", Data = 42000L, DateOfLastIn = new DateTime(2024, 10, 7, 15, 51, 36, 187, DateTimeKind.Local), DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), StationId = 2 },
-                        new { Id = 4, ContainWhat = "Petrol", Data = 53000L, DateOfLastIn = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), DateOfLastUpdate = new DateTime(2024, 10, 9, 15, 51, 36, 187, DateTimeKind.Local), StationId = 3 },
-                        new { Id = 5, ContainWhat = "Gas", Data = 30000L, DateOfLastIn = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), DateOfLastUpdate = new DateTime(2024, 10, 9, 15, 51, 36, 187, DateTimeKind.Local), StationId = 4 },
-                        new { Id = 6, ContainWhat = "Diesel", Data = 26000L, DateOfLastIn = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), DateOfLastUpdate = new DateTime(2024, 10, 9, 15, 51, 36, 187, DateTimeKind.Local), StationId = 4 },
-                        new { Id = 7, ContainWhat = "Petrol", Data = 24000L, DateOfLastIn = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), DateOfLastUpdate = new DateTime(2024, 10, 9, 15, 51, 36, 187, DateTimeKind.Local), StationId = 4 },
-                        new { Id = 8, ContainWhat = "Gas", Data = 4000L, DateOfLastIn = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), DateOfLastUpdate = new DateTime(2024, 10, 9, 15, 51, 36, 187, DateTimeKind.Local), StationId = 5 },
-                        new { Id = 9, ContainWhat = "Petrol", Data = 23000L, DateOfLastIn = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 187, DateTimeKind.Local), StationId = 5 }
+                        new { Id = 1, ContainWhat = "Gas", Data = 32000L, DateOfLastIn = 1643716800L, DateOfLastUpdate = 1643723400L, StationId = 1 },
+                        new { Id = 2, ContainWhat = "Petrol", Data = 15000L, DateOfLastIn = 1643716800L, DateOfLastUpdate = 1643723400L, StationId = 1 },
+                        new { Id = 3, ContainWhat = "Diesel", Data = 42000L, DateOfLastIn = 1643716800L, DateOfLastUpdate = 1643723400L, StationId = 2 },
+                        new { Id = 4, ContainWhat = "Petrol", Data = 53000L, DateOfLastIn = 1643726400L, DateOfLastUpdate = 1643730000L, StationId = 3 },
+                        new { Id = 5, ContainWhat = "Gas", Data = 30000L, DateOfLastIn = 1643726400L, DateOfLastUpdate = 1643730000L, StationId = 4 },
+                        new { Id = 6, ContainWhat = "Diesel", Data = 26000L, DateOfLastIn = 1643726400L, DateOfLastUpdate = 1643730000L, StationId = 4 },
+                        new { Id = 7, ContainWhat = "Petrol", Data = 24000L, DateOfLastIn = 1643726400L, DateOfLastUpdate = 1643730000L, StationId = 4 },
+                        new { Id = 8, ContainWhat = "Gas", Data = 4000L, DateOfLastIn = 1643726400L, DateOfLastUpdate = 1643730000L, StationId = 5 },
+                        new { Id = 9, ContainWhat = "Petrol", Data = 23000L, DateOfLastIn = 1643716800L, DateOfLastUpdate = 1643723400L, StationId = 5 },
+                        new { Id = 10, ContainWhat = "Gas", Data = 18000L, DateOfLastIn = 1643726400L, DateOfLastUpdate = 1643730000L, StationId = 2 },
+                        new { Id = 11, ContainWhat = "Diesel", Data = 10000L, DateOfLastIn = 1643716800L, DateOfLastUpdate = 1643723400L, StationId = 1 }
                     );
                 });
 
@@ -148,11 +150,11 @@ namespace LevelsTables_2._1.Migrations
                     b.ToTable("Stations");
 
                     b.HasData(
-                        new { Id = 1, Name = "Station 1" },
-                        new { Id = 2, Name = "Station 2" },
-                        new { Id = 3, Name = "Station 3" },
-                        new { Id = 4, Name = "Station 4" },
-                        new { Id = 5, Name = "Station 5" }
+                        new { Id = 1, Name = "Station 123" },
+                        new { Id = 2, Name = "Station 212" },
+                        new { Id = 3, Name = "Station 354" },
+                        new { Id = 4, Name = "Station 421" },
+                        new { Id = 5, Name = "Station 554" }
                     );
                 });
 
@@ -166,7 +168,7 @@ namespace LevelsTables_2._1.Migrations
 
                     b.Property<long>("Data");
 
-                    b.Property<DateTime>("DateOfLastUpdate");
+                    b.Property<long>("DateOfLastUpdate");
 
                     b.Property<int>("StationId");
 
@@ -177,21 +179,23 @@ namespace LevelsTables_2._1.Migrations
                     b.ToTable("TankForStations");
 
                     b.HasData(
-                        new { Id = 1, ContainWhat = "Gas", Data = 10000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 185, DateTimeKind.Local), StationId = 1 },
-                        new { Id = 2, ContainWhat = "Gas", Data = 12000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 1 },
-                        new { Id = 3, ContainWhat = "Petrol", Data = 15000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 1 },
-                        new { Id = 4, ContainWhat = "Diesel", Data = 20000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 2 },
-                        new { Id = 5, ContainWhat = "Diesel", Data = 22000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 2 },
-                        new { Id = 6, ContainWhat = "Gas", Data = 18000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 2 },
-                        new { Id = 7, ContainWhat = "Petrol", Data = 25000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 3 },
-                        new { Id = 8, ContainWhat = "Petrol", Data = 28000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 3 },
-                        new { Id = 9, ContainWhat = "Gas", Data = 14000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 4 },
-                        new { Id = 10, ContainWhat = "Gas", Data = 16000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 4 },
-                        new { Id = 11, ContainWhat = "Petrol", Data = 24000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 4 },
-                        new { Id = 12, ContainWhat = "Diesel", Data = 26000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 4 },
-                        new { Id = 13, ContainWhat = "Gas", Data = 4000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 5 },
-                        new { Id = 14, ContainWhat = "Petrol", Data = 9000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 5 },
-                        new { Id = 15, ContainWhat = "Petrol", Data = 14000L, DateOfLastUpdate = new DateTime(2024, 10, 8, 15, 51, 36, 186, DateTimeKind.Local), StationId = 5 }
+                        new { Id = 1, ContainWhat = "Gas", Data = 10000L, DateOfLastUpdate = 1643723400L, StationId = 1 },
+                        new { Id = 2, ContainWhat = "Gas", Data = 12000L, DateOfLastUpdate = 1643716800L, StationId = 1 },
+                        new { Id = 3, ContainWhat = "Petrol", Data = 15000L, DateOfLastUpdate = 1643730000L, StationId = 1 },
+                        new { Id = 4, ContainWhat = "Diesel", Data = 20000L, DateOfLastUpdate = 1643700000L, StationId = 2 },
+                        new { Id = 5, ContainWhat = "Diesel", Data = 22000L, DateOfLastUpdate = 1643713200L, StationId = 2 },
+                        new { Id = 6, ContainWhat = "Gas", Data = 18000L, DateOfLastUpdate = 1643720400L, StationId = 2 },
+                        new { Id = 7, ContainWhat = "Petrol", Data = 25000L, DateOfLastUpdate = 1643696400L, StationId = 3 },
+                        new { Id = 8, ContainWhat = "Petrol", Data = 28000L, DateOfLastUpdate = 1643719800L, StationId = 3 },
+                        new { Id = 9, ContainWhat = "Gas", Data = 14000L, DateOfLastUpdate = 1643722200L, StationId = 4 },
+                        new { Id = 10, ContainWhat = "Gas", Data = 16000L, DateOfLastUpdate = 1643692800L, StationId = 4 },
+                        new { Id = 11, ContainWhat = "Petrol", Data = 24000L, DateOfLastUpdate = 1643716200L, StationId = 4 },
+                        new { Id = 12, ContainWhat = "Diesel", Data = 26000L, DateOfLastUpdate = 1643724600L, StationId = 4 },
+                        new { Id = 13, ContainWhat = "Gas", Data = 4000L, DateOfLastUpdate = 1643703600L, StationId = 5 },
+                        new { Id = 14, ContainWhat = "Petrol", Data = 9000L, DateOfLastUpdate = 1643712600L, StationId = 5 },
+                        new { Id = 15, ContainWhat = "Petrol", Data = 14000L, DateOfLastUpdate = 1643725800L, StationId = 5 },
+                        new { Id = 16, ContainWhat = "Gas", Data = 10000L, DateOfLastUpdate = 1643699200L, StationId = 1 },
+                        new { Id = 17, ContainWhat = "Diesel", Data = 10000L, DateOfLastUpdate = 1643719200L, StationId = 1 }
                     );
                 });
 

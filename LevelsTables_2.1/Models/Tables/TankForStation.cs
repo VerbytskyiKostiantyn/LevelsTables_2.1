@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LevelsTables.Models.Tables
 {
@@ -11,6 +12,8 @@ namespace LevelsTables.Models.Tables
         public Station Station { get; set; }
         public string ContainWhat { get; set; }
         public long Data { get; set; }
-        public DateTime DateOfLastUpdate { get; set; }
+        public long DateOfLastUpdate { get; set; }
+        [NotMapped]
+        public string Color { get; set; }
     }
 }
